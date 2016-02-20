@@ -1,6 +1,6 @@
 <h2>All tests</h2>
 
-<%= link_to 'Create new test', new_test_path %>
+<%= link_to 'Create new test', new_test_path, class: 'btn btn-default' %>
 
 <table class="table table-striped">
   <tr>
@@ -13,11 +13,16 @@
 
   <% @tests.each do |test| %>
     <tr>
-      <td><%= link_to test.name, '#' %></td>
+      <td><%= link_to test.name, test_path(test) %></td>
       <td><%= link_to 'Copy link', '#' %></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td><%= link_to test.questions.count, test_path(test) %></td>
+      <td><%= link_to 'num', '#' %></td>
+      <td>
+        <%= link_to 'Edit', edit_test_path(test) %>
+        <%= link_to 'Delete', test_path(test),
+                    method: :delete,
+                    data: { confirm: 'Are you sure?' } %>
+      </td>
     </tr>
   <% end %>
 </table>

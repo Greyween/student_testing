@@ -1,18 +1,19 @@
 class QuestionsController < ApplicationController
+  before_action :find_test
 
   def show
     @question = Question.find(params[:id])
   end
 
   def new
-    @question = Question.new
+    @question = @test.questions.new
   end
 
   def create
-    @question = Question.new(question_params)
+    @question = @test.questions.build(question_params)
     if @question.save
       flash[:success] = 'Question has been created'
-      redirect_to @question
+      redirect_to test_path(@test)
     else
       flash[:alert] = 'Question has not been created'
       render :new
@@ -20,14 +21,14 @@ class QuestionsController < ApplicationController
   end
 
   def edit
-    @question = Question.find(params[:id])
+    @question = @test.questions.find(params[:id])
   end
 
   def update
-    @question = Question.find(params[:id])
+    @question = @test.questions.find(params[:id])
     if @question.update(question_params)
       flash[:success] = 'Question has been created'
-      redirect_to @question
+      redirect_to test_path(@test)
     else
       flash[:alert] = 'Question has not been created'
       render :edit
@@ -35,15 +36,19 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question = Question.find(params[:id])
+    @question = @test.questions.find(params[:id])
     @question.destroy
     flash[:success] = 'Question has been deleted'
-    redirect_to questions_url
+    redirect_to test_path(@test)
   end
 
   private
 
   def question_params
-    params.require(:question).permit(:content)
+    params.require(:question).permit(:content, :test_id)
+  end
+
+  def find_test
+    @test = Test.find(params[:test_id])
   end
 end

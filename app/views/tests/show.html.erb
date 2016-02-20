@@ -1,3 +1,24 @@
-<h2 class="text-center"><%= @test.name %></h2>
+<h2 class="text-center">Questions for <%= @test.name %></h2>
 
-<p><%= @test.description %></p>
+<%= link_to 'New question', new_test_question_path(@test), class: 'btn btn-primary' %>
+
+<table class="table table-striped">
+  <tr>
+    <th>Question</th>
+    <th>Answers</th>
+    <th>Actions</th>
+  </tr>
+
+  <% @test.questions.each do |question| %>
+    <tr>
+      <td><%= question.content %></td>
+      <td><%= link_to question.answers.count, test_question_path(@test, question) %></td>
+      <td>
+        <%= link_to 'Edit', edit_test_question_path(@test, question) %>
+        <%= link_to 'Delete', test_question_path(@test, question),
+                    method: :delete,
+                    data: { confirm: 'Are you sure?'} %>
+      </td>
+    </tr>
+  <% end %>
+</table>
