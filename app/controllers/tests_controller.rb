@@ -18,7 +18,7 @@ class TestsController < ApplicationController
       redirect_to @test
     else
       flash[:alert] = 'Test has not been created'
-      redirect_to tests_url
+      render :new
     end
   end
 
@@ -33,7 +33,7 @@ class TestsController < ApplicationController
       redirect_to @test
     else
       flash[:alert] = 'Test has not been updated'
-      redirect_to tests_url
+      render :edit
     end
   end
 
